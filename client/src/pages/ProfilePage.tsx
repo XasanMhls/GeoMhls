@@ -45,7 +45,7 @@ export default function ProfilePage() {
   const freezeLocation = user?.settings?.freezeLocation ?? false;
 
   return (
-    <div className="pb-36">
+    <div className="pb-36 lg:pb-10">
       <Header title={t('profile.title')} />
       <div className="px-5 space-y-4">
         {/* Profile card */}

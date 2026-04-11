@@ -24,7 +24,7 @@ export default function ChatPage() {
   }, [fetchGroups, fetchLastMessages]);
 
   return (
-    <div className="pb-36">
+    <div className="pb-36 lg:pb-10">
       <Header title={t('chat.title')} />
       <div className="px-5 space-y-3">
         {loading && groups.length === 0 ? (
@@ -46,11 +46,16 @@ export default function ChatPage() {
               <GlassCard
                 key={g._id}
                 onClick={() => navigate(`/chat/${g._id}`)}
-                className="flex cursor-pointer items-center gap-4 p-4 transition-all hover:bg-surface-2/70 active:scale-[0.99]"
+                className="flex cursor-pointer items-center gap-4 p-4 transition-all active:scale-[0.985] active:brightness-95"
+                style={{ borderLeft: `3px solid ${g.color}` }}
               >
                 <div
-                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-2xl shadow-lg"
-                  style={{ background: g.color, boxShadow: `0 10px 24px -8px ${g.color}66` }}
+                  className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-2xl"
+                  style={{
+                    background: `${g.color}22`,
+                    boxShadow: `0 6px 20px -4px ${g.color}55`,
+                    border: `1px solid ${g.color}33`,
+                  }}
                 >
                   {g.emoji}
                 </div>

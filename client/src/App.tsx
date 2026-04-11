@@ -54,64 +54,34 @@ export default function App() {
       <SplashScreen visible={!initialized} />
       <ConnectionBar />
       <Suspense fallback={null}>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/welcome" element={<PageTransition><WelcomePage /></PageTransition>} />
-          <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
-          <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
-          <Route path="/auth/callback" element={<AuthCallbackPage />} />
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/welcome"       element={<PageTransition><WelcomePage /></PageTransition>} />
+            <Route path="/login"         element={<PageTransition><LoginPage /></PageTransition>} />
+            <Route path="/register"      element={<PageTransition><RegisterPage /></PageTransition>} />
+            <Route path="/auth/callback" element={<AuthCallbackPage />} />
 
-          <Route
-            path="/onboarding"
-            element={
-              <ProtectedRoute>
-                <PageTransition><OnboardingPage /></PageTransition>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/map"
-            element={
-              <ProtectedRoute>
-                <MapPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups"
-            element={
-              <ProtectedRoute>
-                <PageTransition><GroupsPage /></PageTransition>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chat"
-            element={
-              <ProtectedRoute>
-                <PageTransition><ChatPage /></PageTransition>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chat/:id"
-            element={
-              <ProtectedRoute>
-                <ChatRoomPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <PageTransition><ProfilePage /></PageTransition>
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to={user ? '/map' : '/welcome'} replace />} />
-        </Routes>
-      </AnimatePresence>
+            <Route path="/onboarding" element={
+              <ProtectedRoute><PageTransition><OnboardingPage /></PageTransition></ProtectedRoute>
+            }/>
+            <Route path="/map" element={
+              <ProtectedRoute><MapPage /></ProtectedRoute>
+            }/>
+            <Route path="/groups" element={
+              <ProtectedRoute><PageTransition><GroupsPage /></PageTransition></ProtectedRoute>
+            }/>
+            <Route path="/chat" element={
+              <ProtectedRoute><PageTransition><ChatPage /></PageTransition></ProtectedRoute>
+            }/>
+            <Route path="/chat/:id" element={
+              <ProtectedRoute><ChatRoomPage /></ProtectedRoute>
+            }/>
+            <Route path="/profile" element={
+              <ProtectedRoute><PageTransition><ProfilePage /></PageTransition></ProtectedRoute>
+            }/>
+            <Route path="*" element={<Navigate to={user ? '/map' : '/welcome'} replace />} />
+          </Routes>
+        </AnimatePresence>
       </Suspense>
       {user && <TabBar />}
       <Toast />

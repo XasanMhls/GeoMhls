@@ -64,7 +64,7 @@ export default function GroupsPage() {
   };
 
   return (
-    <div className="pb-36">
+    <div className="pb-36 lg:pb-10">
       <Header title={t('groups.title')} />
       <div className="px-5 space-y-3">
         <div className="grid grid-cols-2 gap-3">
