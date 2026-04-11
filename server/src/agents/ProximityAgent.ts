@@ -31,7 +31,7 @@ export class ProximityAgent extends BaseAgent {
 
   private async checkProximity(userId: string) {
     const user = await User.findById(userId).select('location settings').lean();
-    if (!user?.location || user.settings?.ghostMode) return;
+    if (!user?.location || user.settings?.shareLocation === false) return;
 
     // Find all groups this user belongs to and get their members' locations
     const groups = await Group.find({ 'members.user': userId })
@@ -42,11 +42,11 @@ export class ProximityAgent extends BaseAgent {
       for (const member of group.members as any[]) {
         const friend = member.user;
         if (!friend || String(friend._id) === userId) continue;
-        if (!friend.location || friend.settings?.ghostMode) continue;
+        if (!friend.location || friend.settings?.shareLocation === false) continue;
 
         const dist = haversineMeters(
-          user.location.lat, user.location.lng,
-          friend.location.lat, friend.location.lng,
+          user.location.lat as number, user.location.lng as number,
+          friend.location.lat as number, friend.location.lng as number,
         );
 
         if (dist <= AGENT_CONFIG.PROXIMITY_THRESHOLD_M) {

@@ -64,7 +64,7 @@ export class ETAAgent extends BaseAgent {
       if (!user?.location) continue;
 
       const distMeters = haversineMeters(
-        user.location.lat, user.location.lng,
+        user.location.lat as number, user.location.lng as number,
         entry.destLat, entry.destLng,
       );
 

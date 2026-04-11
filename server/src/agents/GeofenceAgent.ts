@@ -30,13 +30,13 @@ export class GeofenceAgent extends BaseAgent {
 
   private async check(userId: string) {
     const user = await User.findById(userId).select('location settings').lean();
-    if (!user?.location || user.settings?.ghostMode) return;
+    if (!user?.location || user.settings?.shareLocation === false) return;
 
     const geofences = await Geofence.find({ active: true }).lean();
 
     for (const fence of geofences) {
       const dist = haversineMeters(
-        user.location.lat, user.location.lng,
+        user.location.lat as number, user.location.lng as number,
         fence.lat, fence.lng,
       );
       const stateKey = `${userId}:${fence._id}`;
