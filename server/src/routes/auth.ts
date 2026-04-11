@@ -24,12 +24,13 @@ const authLimiter = rateLimit({
 });
 
 const REFRESH_COOKIE = 'gh_refresh';
+const isProduction = env.NODE_ENV === 'production';
 const cookieOptions = {
   httpOnly: true,
-  secure: env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  secure: isProduction,
+  sameSite: (isProduction ? 'none' : 'lax') as 'none' | 'lax',
   maxAge: 30 * 24 * 60 * 60 * 1000,
-  path: '/api/auth',
+  path: '/',
 };
 
 function serializeUser(user: any) {
@@ -95,7 +96,7 @@ router.post('/refresh', async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  res.clearCookie(REFRESH_COOKIE, { path: '/api/auth' });
+  res.clearCookie(REFRESH_COOKIE, { path: '/', sameSite: isProduction ? 'none' : 'lax', secure: isProduction });
   res.json({ ok: true });
 });
 
