@@ -1,0 +1,200 @@
+{
+  "app": {
+    "name": "GeoMhls",
+    "tagline": "Yaqinlaringiz bilan, qayerda boʻlsangiz ham, bogʻlanib turing"
+  },
+  "common": {
+    "continue": "Davom etish",
+    "cancel": "Bekor",
+    "save": "Saqlash",
+    "delete": "Oʻchirish",
+    "edit": "Tahrirlash",
+    "create": "Yaratish",
+    "join": "Qoʻshilish",
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi",
+    "back": "Orqaga",
+    "next": "Keyingi",
+    "done": "Tayyor",
+    "skip": "Oʻtkazib yuborish",
+    "search": "Qidirish",
+    "ok": "OK",
+    "online": "Onlayn",
+    "offline": "Oflayn",
+    "lastSeen": "Oxirgi marta: {{when}}"
+  },
+  "auth": {
+    "welcome": "GeoMhls'ga xush kelibsiz",
+    "welcomeSub": "Yaqinlaringiz qayerdaligini real vaqtda koʻring",
+    "getStarted": "Boshlash",
+    "haveAccount": "Akkauntim bor",
+    "signIn": "Kirish",
+    "signUp": "Roʻyxatdan oʻtish",
+    "signOut": "Chiqish",
+    "email": "Email",
+    "password": "Parol",
+    "name": "Ismingiz",
+    "or": "yoki",
+    "googleSignIn": "Google orqali kirish",
+    "noAccount": "Akkauntingiz yoʻqmi?",
+    "hasAccount": "Akkauntingiz bormi?",
+    "createAccount": "Akkaunt yaratish",
+    "loggingIn": "Kirilmoqda...",
+    "registering": "Akkaunt yaratilmoqda..."
+  },
+  "onboarding": {
+    "slide1Title": "Doʻstlaringiz xaritada",
+    "slide1Sub": "Aylanalaringiz geolokatsiyasi real vaqtda",
+    "slide2Title": "Tezkor chat",
+    "slide2Sub": "Xabar, emoji va tovushlar — bir zumda",
+    "slide3Title": "Aylanalar yarating",
+    "slide3Sub": "Oila, doʻstlar, hamkasblar — bitta taklif kodi bilan"
+  },
+  "tabs": {
+    "map": "Xarita",
+    "groups": "Aylanalar",
+    "chat": "Chat",
+    "profile": "Profil"
+  },
+  "map": {
+    "you": "Siz",
+    "centerOnMe": "Meni topish",
+    "shareDisabled": "Geolokatsiya oʻchirilgan",
+    "enableShare": "Yoqish"
+  },
+  "groups": {
+    "title": "Aylanalar",
+    "empty": "Hali aylanalaringiz yoʻq",
+    "emptySub": "Oʻzingiz yarating yoki kod bilan qoʻshiling",
+    "createNew": "Yangi aylana",
+    "joinCircle": "Kod bilan qoʻshilish",
+    "members": "{{count}} aʼzo",
+    "inviteCode": "Taklif kodi",
+    "copyCode": "Kodni nusxalash",
+    "copied": "Nusxalandi!",
+    "leave": "Aylanadan chiqish",
+    "delete": "Aylanani oʻchirish",
+    "namePlaceholder": "Aylana nomi",
+    "pickEmoji": "Emoji tanlang",
+    "pickColor": "Rang tanlang",
+    "codePlaceholder": "6 xonali kod"
+  },
+  "chat": {
+    "title": "Xabarlar",
+    "empty": "Xabarlar yoʻq",
+    "emptySub": "Aylanangiz bilan salomlashing",
+    "placeholder": "Xabar...",
+    "typing": "yozmoqda...",
+    "send": "Yuborish"
+  },
+  "profile": {
+    "title": "Profil",
+    "editProfile": "Profilni tahrirlash",
+    "statusPlaceholder": "Nima qilyapsiz?",
+    "settings": "Sozlamalar",
+    "theme": "Mavzu",
+    "themeDark": "Qorongʻi",
+    "themeLight": "Yorugʻ",
+    "language": "Til",
+    "locationSettings": "Lokatsiya",
+    "shareLocation": "Geolokatsiyani ulashish",
+    "freezeLocation": "Lokatsiyani muzlatish",
+    "freezeLocationSub": "Boshqalar oxirgi joylashuvingizni koʻradi",
+    "notifications": "Bildirishnomalar",
+    "about": "Ilova haqida",
+    "version": "Versiya"
+  },
+  "landing": {
+    "tagline": "Real vaqtda geolokatsiya",
+    "heroTitle1": "Yaqinlaringiz qayerda",
+    "heroTitle2": "Ekanini biling",
+    "heroSub": "Oilangiz, doʻstlaringiz va aylanalaringiz bilan real vaqtda bogʻlaning. Hammani xaritada koʻring, tezkor chat, xavfsizlik.",
+    "scrollDown": "Pastga aylantiring",
+    "nav": {
+      "features": "Imkoniyatlar",
+      "howItWorks": "Qanday ishlaydi",
+      "safety": "Xavfsizlik"
+    },
+    "f1": {
+      "tag": "Jonli kuzatuv",
+      "title1": "Hammani xaritada",
+      "title2": "Koʻring",
+      "desc": "Real vaqtda GPS kuzatuvi aylana aʼzolarining aynan qayerda ekanini koʻrsatadi. Avatarli markerlar har bir necha soniyada yangilanadi. Mapbox GL asosidagi chiroyli qorongʻi va yorugʻ xarita uslublari.",
+      "cta": "Kuzatuvni boshlash"
+    },
+    "f2": {
+      "tag": "Maxfiy guruhlar",
+      "title1": "Oʻz aylanangizni",
+      "title2": "Yarating",
+      "desc": "Dunyoingizni aylanalarga ajrating — oila, doʻstlar, hamkasblar. Har bir aylana oʻz taklif kodi, emoji va rangiga ega. 6 xonali kodni ulashing — odamlaringiz ichkarida. Telefon raqamlarsiz.",
+      "cta": "Aylana yaratish"
+    },
+    "f3": {
+      "tag": "Tezkor xabarlar",
+      "title1": "Aylanalaringizda",
+      "title2": "Suhbatlashing",
+      "desc": "Har bir aylananing oʻz chat xonasi bor. Xabar yuboring, emoji tanlang, kim yozayotganini real vaqtda koʻring. Bildirishnoma tovushlari sizni xabardor qiladi. Barcha xabarlar WebSocket orqali bir zumda yetkaziladi.",
+      "cta": "Suhbatni boshlash"
+    },
+    "tutorial": {
+      "tag": "Qoʻllanma",
+      "title": "Boshlash juda oson",
+      "step1": "Akkaunt yarating",
+      "step1d": "Email yoki Google orqali bir necha soniyada roʻyxatdan oʻting. Xaritada tanilish uchun ism va avatar tanlang.",
+      "step2": "Aylana boshlang",
+      "step2d": "Oila, doʻstlar yoki hamkasblar uchun aylana yarating. 6 xonali taklif kodini ulashing.",
+      "step3": "Jonli rejim",
+      "step3d": "Geolokatsiyani yoqing va hammani xaritada real vaqtda koʻring. Suhbatlashing, kuzating va bogʻlangan boʻling."
+    },
+    "safety": {
+      "tag": "Maxfiyligingiz muhim",
+      "title1": "Xavfsiz va maxfiy",
+      "title2": "Dizayn boʻyicha",
+      "desc": "Geolokatsiyangiz faqat siz tanlagan aylanalarga koʻrinadi. Istalgan vaqtda bir bosish bilan oʻchiring. Reklama yoʻq, maʼlumot sotilmaydi. Barcha ulanishlar JWT va WebSocket xavfsizligi bilan shifrlangan.",
+      "encrypted": "Toʻliq\nshifrlangan",
+      "private": "Faqat maxfiy\naylanalar",
+      "ghost": "Koʻrinmas\nrejim",
+      "noAds": "Reklama va\nkuzatuvsiz"
+    },
+    "stats": {
+      "users": "Faol foydalanuvchilar",
+      "circles": "Aylanalar yaratildi",
+      "messages": "Xabarlar yuborildi",
+      "uptime": "Ish vaqti"
+    },
+    "cta": {
+      "title1": "Bogʻlangan boʻlishga",
+      "title2": "Tayyormisiz?",
+      "desc": "GeoMhls'ga ishongan minglab odamlarga qoʻshiling. Bepul, kredit kartasiz.",
+      "btn": "Bepul boshlash"
+    },
+    "footer": {
+      "desc": "Yaqinlaringiz bilan, qayerda boʻlsangiz ham, bogʻlanib turing. Eng muhimlar uchun real vaqtda geolokatsiya.",
+      "product": "Mahsulot",
+      "company": "Kompaniya",
+      "pricing": "Narxlar",
+      "about": "Biz haqimizda",
+      "blog": "Blog",
+      "careers": "Karyera",
+      "contact": "Aloqa",
+      "privacy": "Maxfiylik siyosati",
+      "copyright": "Copyright 2024 GeoMhls, Inc. Shartlar va maxfiylik"
+    },
+    "chat": {
+      "msg1": "Salom! Qayerdasiz?",
+      "msg2": "Deyarli yetib keldim, 5 daqiqa!",
+      "msg3": "Sizni xaritada koʻryapman!",
+      "msg4": "Haha ha"
+    }
+  },
+  "errors": {
+    "required": "Majburiy maydon",
+    "invalidEmail": "Notoʻgʻri email",
+    "passwordShort": "Parol kamida 6 belgidan iborat boʻlishi kerak",
+    "nameShort": "Ism juda qisqa",
+    "networkError": "Tarmoq xatosi, qayta urinib koʻring",
+    "invalidCredentials": "Notoʻgʻri email yoki parol",
+    "emailTaken": "Bu email allaqachon roʻyxatdan oʻtgan",
+    "invalidCode": "Notoʻgʻri taklif kodi"
+  }
+}

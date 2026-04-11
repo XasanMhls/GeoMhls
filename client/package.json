@@ -1,0 +1,48 @@
+{
+  "name": "@geomhls/client",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
+    "@geomhls/shared": "*",
+    "@hookform/resolvers": "^3.10.0",
+    "axios": "^1.7.9",
+    "clsx": "^2.1.1",
+    "emoji-mart": "^5.6.0",
+    "framer-motion": "^11.15.0",
+    "howler": "^2.2.4",
+    "i18next": "^24.2.1",
+    "i18next-browser-languagedetector": "^8.0.2",
+    "lucide-react": "^1.8.0",
+    "maplibre-gl": "^5.22.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "react-i18next": "^15.4.0",
+    "react-router-dom": "^6.28.2",
+    "socket.io-client": "^4.8.1",
+    "tailwind-merge": "^2.6.0",
+    "zod": "^3.24.2",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.2.12",
+    "@types/node": "^22.13.5",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vite-plugin-pwa": "^0.21.1"
+  }
+}

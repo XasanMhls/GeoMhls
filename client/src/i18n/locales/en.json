@@ -1,0 +1,201 @@
+{
+  "app": {
+    "name": "GeoMhls",
+    "tagline": "Stay connected with your people, wherever they are"
+  },
+  "common": {
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "join": "Join",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "skip": "Skip",
+    "search": "Search",
+    "ok": "OK",
+    "online": "Online",
+    "offline": "Offline",
+    "lastSeen": "Last seen {{when}}"
+  },
+  "auth": {
+    "welcome": "Welcome to GeoMhls",
+    "welcomeSub": "See where your people are, in real time",
+    "getStarted": "Get Started",
+    "haveAccount": "I already have an account",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "name": "Your name",
+    "or": "or",
+    "googleSignIn": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "createAccount": "Create an account",
+    "loggingIn": "Signing in...",
+    "registering": "Creating your account..."
+  },
+  "onboarding": {
+    "slide1Title": "See friends on the map",
+    "slide1Sub": "Live locations of your circles, always up to date",
+    "slide2Title": "Chat in real time",
+    "slide2Sub": "Messages, emojis and sounds — instantly delivered",
+    "slide3Title": "Create circles",
+    "slide3Sub": "Family, friends, colleagues — one invite code away"
+  },
+  "tabs": {
+    "map": "Map",
+    "groups": "Groups",
+    "chat": "Chat",
+    "profile": "Profile"
+  },
+  "map": {
+    "you": "You",
+    "centerOnMe": "Center on me",
+    "shareDisabled": "Location sharing off",
+    "enableShare": "Enable sharing"
+  },
+  "groups": {
+    "title": "Circles",
+    "empty": "No circles yet",
+    "emptySub": "Create one or join with an invite code",
+    "createNew": "Create new circle",
+    "joinCircle": "Join with code",
+    "members": "{{count}} member",
+    "members_other": "{{count}} members",
+    "inviteCode": "Invite code",
+    "copyCode": "Copy code",
+    "copied": "Copied!",
+    "leave": "Leave circle",
+    "delete": "Delete circle",
+    "namePlaceholder": "Circle name",
+    "pickEmoji": "Pick an emoji",
+    "pickColor": "Pick a color",
+    "codePlaceholder": "Enter 6-digit code"
+  },
+  "chat": {
+    "title": "Messages",
+    "empty": "No messages yet",
+    "emptySub": "Say hi to your circle",
+    "placeholder": "Message...",
+    "typing": "typing...",
+    "send": "Send"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit profile",
+    "statusPlaceholder": "What are you up to?",
+    "settings": "Settings",
+    "theme": "Theme",
+    "themeDark": "Dark",
+    "themeLight": "Light",
+    "language": "Language",
+    "shareLocation": "Share my location",
+    "freezeLocation": "Freeze location",
+    "freezeLocationSub": "Others see your last known position",
+    "locationSettings": "Location",
+    "notifications": "Notifications",
+    "about": "About",
+    "version": "Version"
+  },
+  "landing": {
+    "tagline": "Real-Time Location Sharing",
+    "heroTitle1": "Know Where Your",
+    "heroTitle2": "People Are",
+    "heroSub": "Stay connected with your family, friends, and circles in real time. See everyone on the map, chat instantly, feel safe.",
+    "scrollDown": "Scroll down",
+    "nav": {
+      "features": "Features",
+      "howItWorks": "How it works",
+      "safety": "Safety"
+    },
+    "f1": {
+      "tag": "Live Tracking",
+      "title1": "See Everyone",
+      "title2": "On The Map",
+      "desc": "Real-time GPS tracking shows exactly where your circle members are, right now. Beautiful markers with avatars update every few seconds. Zoom in, fly to a friend — all powered by Mapbox GL with stunning dark and light map styles.",
+      "cta": "Start tracking"
+    },
+    "f2": {
+      "tag": "Private Groups",
+      "title1": "Create Your",
+      "title2": "Inner Circle",
+      "desc": "Organize your world into circles — family, friends, colleagues. Each circle gets its own invite code, emoji, and color. Share a 6-digit code and your people are in. No phone numbers needed, no contact syncing.",
+      "cta": "Create a circle"
+    },
+    "f3": {
+      "tag": "Instant Messaging",
+      "title1": "Chat With",
+      "title2": "Your Circles",
+      "desc": "Every circle has its own chat room. Send messages, pick emojis from a full emoji picker, see who's typing in real time. Notification sounds keep you in the loop even when you're away. All messages delivered instantly via WebSocket.",
+      "cta": "Start chatting"
+    },
+    "tutorial": {
+      "tag": "Tutorial",
+      "title": "Getting Started Is Easy",
+      "step1": "Create Account",
+      "step1d": "Sign up with email or Google in seconds. Choose your name and avatar to be recognized on the map.",
+      "step2": "Start a Circle",
+      "step2d": "Create a circle for family, friends, or colleagues. Share the 6-digit invite code — no contact sync needed.",
+      "step3": "Go Live",
+      "step3d": "Enable location sharing and see everyone on the map in real time. Chat, track, and stay connected."
+    },
+    "safety": {
+      "tag": "Your Privacy Matters",
+      "title1": "Safe & Private",
+      "title2": "By Design",
+      "desc": "Your location is only shared with circles you choose. Toggle sharing off anytime with one tap. No ads, no data selling. All connections are encrypted with JWT and WebSocket security.",
+      "encrypted": "End-to-end\nEncrypted",
+      "private": "Private\nCircles Only",
+      "ghost": "Ghost Mode\nAvailable",
+      "noAds": "No Ads\nNo Tracking"
+    },
+    "stats": {
+      "users": "Active Users",
+      "circles": "Circles Created",
+      "messages": "Messages Sent",
+      "uptime": "Uptime"
+    },
+    "cta": {
+      "title1": "Ready to Stay",
+      "title2": "Connected?",
+      "desc": "Join thousands of people who trust GeoMhls to keep their circles close. Free to use, no credit card required.",
+      "btn": "Get Started Free"
+    },
+    "footer": {
+      "desc": "Stay connected with your people, wherever they are. Real-time location sharing for the ones who matter most.",
+      "product": "Product",
+      "company": "Company",
+      "pricing": "Pricing",
+      "about": "About",
+      "blog": "Blog",
+      "careers": "Careers",
+      "contact": "Contact",
+      "privacy": "Privacy Policy",
+      "copyright": "Copyright 2024 GeoMhls, Inc. Terms & Privacy"
+    },
+    "chat": {
+      "msg1": "Hey! Where are you?",
+      "msg2": "Almost there, 5 min away!",
+      "msg3": "I can see you on the map!",
+      "msg4": "Haha yeah"
+    }
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email",
+    "passwordShort": "Password must be at least 6 characters",
+    "nameShort": "Name is too short",
+    "networkError": "Network error, try again",
+    "invalidCredentials": "Wrong email or password",
+    "emailTaken": "This email is already registered",
+    "invalidCode": "Invalid invite code"
+  }
+}
