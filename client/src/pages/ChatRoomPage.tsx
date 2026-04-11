@@ -31,12 +31,15 @@ export default function ChatRoomPage() {
   const typingTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (groupId) {
-      fetchMessages(groupId);
-      setActiveChat(groupId);
+    if (!groupId) return;
+    // If groups haven't been loaded yet (e.g. page refresh), load them first
+    if (groups.length === 0) {
+      useGroupsStore.getState().fetchGroups();
     }
+    fetchMessages(groupId).catch(() => {});
+    setActiveChat(groupId);
     return () => setActiveChat(null);
-  }, [groupId, fetchMessages, setActiveChat]);
+  }, [groupId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });

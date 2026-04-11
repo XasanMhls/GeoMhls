@@ -21,6 +21,9 @@ async function bootstrap() {
 
   const app = express();
 
+  // Railway (and most cloud platforms) sit behind a proxy — trust one hop
+  app.set('trust proxy', 1);
+
   app.use(
     cors({
       origin: env.CLIENT_URL,
