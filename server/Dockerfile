@@ -1,21 +1,19 @@
-FROM node:20-alpine
-
+FROM node:22-alpine
 WORKDIR /app
 
-# Copy root package files for workspaces
+# Copy workspace manifests
 COPY package.json package-lock.json ./
+COPY shared/package.json ./shared/
+COPY server/package.json ./server/
+COPY client/package.json ./client/
 
-# Copy workspace package.json files
-COPY shared/package.json shared/
-COPY server/package.json server/
-COPY client/package.json client/
+# Install deps (tsx is now a production dep)
+RUN npm ci --omit=dev
 
-RUN npm install
-
-# Copy source code
-COPY shared/ shared/
-COPY server/ server/
+# Copy source
+COPY shared/ ./shared/
+COPY server/ ./server/
 
 EXPOSE 5000
 
-CMD ["npm", "run", "dev:server"]
+CMD ["npx", "tsx", "server/src/index.ts"]
