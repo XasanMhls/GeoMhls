@@ -429,10 +429,11 @@ interface FormFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon: React.ReactNode;
   error?: string | false;
   suffix?: React.ReactNode;
+  prefix?: string;
 }
 
 export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
-  ({ isDark, label, icon, error, suffix, ...props }, ref) => (
+  ({ isDark, label, icon, error, suffix, prefix, ...props }, ref) => (
     <div>
       <label className={`block mb-1.5 text-xs font-semibold uppercase tracking-wider ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
         {label}
@@ -445,10 +446,13 @@ export const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
         }}
       >
         <div className={`pl-4 ${isDark ? 'text-white/40' : 'text-gray-400'}`}>{icon}</div>
+        {prefix && (
+          <span className={`pl-2 text-base font-semibold select-none ${isDark ? 'text-white/40' : 'text-gray-400'}`}>{prefix}</span>
+        )}
         <input
           ref={ref}
           {...props}
-          className={`flex-1 bg-transparent px-3 py-4 text-base outline-none ${isDark ? 'text-white placeholder:text-white/30' : 'text-gray-900 placeholder:text-gray-400'}`}
+          className={`flex-1 bg-transparent ${prefix ? 'pl-1' : 'px-3'} pr-3 py-4 text-base outline-none ${isDark ? 'text-white placeholder:text-white/30' : 'text-gray-900 placeholder:text-gray-400'}`}
         />
         {suffix && <div className="pr-4">{suffix}</div>}
       </div>

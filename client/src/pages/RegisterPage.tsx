@@ -37,12 +37,18 @@ export default function RegisterPage() {
   const onSubmit = async (values: RegisterInput) => {
     setApiError(null);
     try {
-      await registerUser(values.email, values.password, values.name);
+      await registerUser(values.email, values.password, values.name, values.username);
       navigate('/onboarding', { replace: true });
     } catch (err: any) {
-      setApiError(
-        err?.response?.status === 409 ? t('errors.emailTaken') : t('errors.networkError'),
-      );
+      const status = err?.response?.status;
+      const msg = err?.response?.data?.error || '';
+      if (status === 409 && msg.includes('Username')) {
+        setApiError(t('errors.usernameTaken'));
+      } else if (status === 409) {
+        setApiError(t('errors.emailTaken'));
+      } else {
+        setApiError(t('errors.networkError'));
+      }
     }
   };
 
@@ -122,6 +128,21 @@ export default function RegisterPage() {
             autoComplete="name"
             error={errors.name && t('errors.nameShort')}
             {...register('name')}
+          />
+          <FormField
+            isDark={isDark}
+            label={t('auth.username') || 'Username'}
+            icon={
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="4" /><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94" />
+              </svg>
+            }
+            type="text"
+            placeholder="yourname"
+            autoComplete="username"
+            prefix="@"
+            error={errors.username && (t('errors.usernameInvalid') || 'Min 3 chars, only a-z 0-9 _')}
+            {...register('username')}
           />
           <FormField
             isDark={isDark}

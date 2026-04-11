@@ -34,6 +34,7 @@
     "email": "Email",
     "password": "Password",
     "name": "Your name",
+    "username": "Username",
     "or": "or",
     "googleSignIn": "Continue with Google",
     "noAccount": "Don't have an account?",
@@ -53,6 +54,7 @@
   "tabs": {
     "map": "Map",
     "groups": "Groups",
+    "friends": "Friends",
     "chat": "Chat",
     "profile": "Profile"
   },
@@ -196,6 +198,18 @@
     "networkError": "Network error, try again",
     "invalidCredentials": "Wrong email or password",
     "emailTaken": "This email is already registered",
+    "usernameTaken": "This username is already taken",
+    "usernameInvalid": "3–20 chars, only a-z, 0-9, _",
     "invalidCode": "Invalid invite code"
+  },
+  "friends": {
+    "title": "Friends",
+    "searchPlaceholder": "Search by username…",
+    "add": "Add",
+    "added": "Added",
+    "remove": "Remove",
+    "myFriends": "My Friends",
+    "empty": "No friends yet",
+    "emptySub": "Search by @username to add someone"
   }
 }

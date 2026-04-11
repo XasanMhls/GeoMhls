@@ -7,6 +7,7 @@ import { cn } from '@/lib/cn';
 const tabs = [
   { to: '/map',     key: 'map',     icon: MapIcon },
   { to: '/groups',  key: 'groups',  icon: GroupsIcon },
+  { to: '/friends', key: 'friends', icon: FriendsIcon },
   { to: '/chat',    key: 'chat',    icon: ChatIcon,   badge: true },
   { to: '/profile', key: 'profile', icon: ProfileIcon },
 ];
@@ -135,6 +136,13 @@ function ProfileIcon({ className, strokeWidth = 2 }: { className?: string; strok
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}>
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+function FriendsIcon({ className, strokeWidth = 2 }: { className?: string; strokeWidth?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
     </svg>
   );
 }

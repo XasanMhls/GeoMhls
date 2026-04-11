@@ -35,6 +35,7 @@ const pushSubscriptionSchema = new Schema(
 const userSchema = new Schema(
   {
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    username: { type: String, required: true, unique: true, lowercase: true, trim: true, index: true },
     name: { type: String, required: true, trim: true },
     passwordHash: { type: String, default: null },
     googleId: { type: String, default: null, index: true },
@@ -42,6 +43,7 @@ const userSchema = new Schema(
     status: { type: String, default: '', maxlength: 50 },
     location: { type: userLocationSchema, default: null },
     settings: { type: userSettingsSchema, default: () => ({}) },
+    friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     lastSeen: { type: Date, default: Date.now },
     isOnline: { type: Boolean, default: false },
     pushSubscriptions: { type: [pushSubscriptionSchema], default: [] },

@@ -61,6 +61,9 @@ export default function ProfilePage() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="truncate text-[19px] font-bold">{user?.name}</div>
+            {user?.username && (
+              <div className="truncate text-sm font-medium text-brand">@{user.username}</div>
+            )}
             <div className="truncate text-sm text-text-muted">{user?.email}</div>
             {user?.status && (
               <div className="mt-1 text-xs text-text-muted">{user.status}</div>

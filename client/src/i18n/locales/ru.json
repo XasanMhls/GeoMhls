@@ -34,6 +34,7 @@
     "email": "Email",
     "password": "Пароль",
     "name": "Ваше имя",
+    "username": "Никнейм",
     "or": "или",
     "googleSignIn": "Войти через Google",
     "noAccount": "Нет аккаунта?",
@@ -53,6 +54,7 @@
   "tabs": {
     "map": "Карта",
     "groups": "Круги",
+    "friends": "Друзья",
     "chat": "Чат",
     "profile": "Профиль"
   },
@@ -197,6 +199,18 @@
     "networkError": "Ошибка сети, попробуйте ещё раз",
     "invalidCredentials": "Неверный email или пароль",
     "emailTaken": "Этот email уже зарегистрирован",
+    "usernameTaken": "Этот никнейм уже занят",
+    "usernameInvalid": "3–20 символов, только a-z, 0-9, _",
     "invalidCode": "Неверный код приглашения"
+  },
+  "friends": {
+    "title": "Друзья",
+    "searchPlaceholder": "Поиск по никнейму…",
+    "add": "Добавить",
+    "added": "Добавлен",
+    "remove": "Удалить",
+    "myFriends": "Мои друзья",
+    "empty": "Пока нет друзей",
+    "emptySub": "Найдите кого-нибудь по @никнейму"
   }
 }

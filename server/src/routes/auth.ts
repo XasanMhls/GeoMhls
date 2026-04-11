@@ -37,6 +37,7 @@ function serializeUser(user: any) {
   return {
     id: String(user._id),
     email: user.email,
+    username: user.username,
     name: user.name,
     avatar: user.avatar,
     status: user.status,
@@ -46,13 +47,20 @@ function serializeUser(user: any) {
 }
 
 router.post('/register', authLimiter, validateBody(registerSchema), async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, username } = req.body;
 
-  const existing = await User.findOne({ email: email.toLowerCase() });
-  if (existing) return res.status(409).json({ error: 'Email already registered' });
+  const existing = await User.findOne({
+    $or: [{ email: email.toLowerCase() }, { username: username.toLowerCase() }],
+  });
+  if (existing) {
+    if (existing.email === email.toLowerCase()) {
+      return res.status(409).json({ error: 'Email already registered' });
+    }
+    return res.status(409).json({ error: 'Username already taken' });
+  }
 
   const passwordHash = await bcrypt.hash(password, 12);
-  const user = await User.create({ email: email.toLowerCase(), name, passwordHash });
+  const user = await User.create({ email: email.toLowerCase(), username: username.toLowerCase(), name, passwordHash });
 
   const accessToken = signAccessToken(String(user._id));
   const refreshToken = signRefreshToken(String(user._id));

@@ -20,6 +20,7 @@ export interface IUser {
   _id: string;
   id: string;
   email: string;
+  username: string;
   name: string;
   avatar: string;
   status: string;
@@ -27,6 +28,15 @@ export interface IUser {
   location: IUserLocation;
   settings: IUserSettings;
   createdAt: string;
+}
+
+export interface IFriend {
+  id: string;
+  username: string;
+  name: string;
+  avatar: string | null;
+  status: string;
+  isOnline: boolean;
 }
 
 export interface IGroupMember {

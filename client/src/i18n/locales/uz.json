@@ -34,6 +34,7 @@
     "email": "Email",
     "password": "Parol",
     "name": "Ismingiz",
+    "username": "Nomi",
     "or": "yoki",
     "googleSignIn": "Google orqali kirish",
     "noAccount": "Akkauntingiz yoʻqmi?",
@@ -53,6 +54,7 @@
   "tabs": {
     "map": "Xarita",
     "groups": "Aylanalar",
+    "friends": "Doʻstlar",
     "chat": "Chat",
     "profile": "Profil"
   },
@@ -195,6 +197,18 @@
     "networkError": "Tarmoq xatosi, qayta urinib koʻring",
     "invalidCredentials": "Notoʻgʻri email yoki parol",
     "emailTaken": "Bu email allaqachon roʻyxatdan oʻtgan",
+    "usernameTaken": "Bu nomi allaqachon band",
+    "usernameInvalid": "3–20 belgi, faqat a-z, 0-9, _",
     "invalidCode": "Notoʻgʻri taklif kodi"
+  },
+  "friends": {
+    "title": "Doʻstlar",
+    "searchPlaceholder": "Nomi boʻyicha qidirish…",
+    "add": "Qoʻshish",
+    "added": "Qoʻshildi",
+    "remove": "Oʻchirish",
+    "myFriends": "Mening doʻstlarim",
+    "empty": "Hali doʻstlaringiz yoʻq",
+    "emptySub": "@nomi orqali qidiring"
   }
 }
