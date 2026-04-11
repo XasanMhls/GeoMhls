@@ -10,7 +10,10 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import groupRoutes from './routes/groups.js';
 import messageRoutes from './routes/messages.js';
+import geofenceRoutes from './routes/geofences.js';
+import historyRoutes from './routes/history.js';
 import { createSocketServer } from './socket/index.js';
+import { AgentManager } from './agents/AgentManager.js';
 
 async function bootstrap() {
   await connectDB();
@@ -33,6 +36,8 @@ async function bootstrap() {
   app.use('/api/users', userRoutes);
   app.use('/api/groups', groupRoutes);
   app.use('/api/messages', messageRoutes);
+  app.use('/api/geofences', geofenceRoutes);
+  app.use('/api/history', historyRoutes);
 
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error(err);
@@ -40,7 +45,15 @@ async function bootstrap() {
   });
 
   const httpServer = http.createServer(app);
-  createSocketServer(httpServer);
+  const io = createSocketServer(httpServer);
+
+  const agentManager = new AgentManager(io);
+  await agentManager.startAll();
+
+  process.on('SIGTERM', async () => {
+    await agentManager.stopAll();
+    process.exit(0);
+  });
 
   httpServer.listen(env.PORT, () => {
     console.log(`🚀 GeoMhls server running on http://localhost:${env.PORT}`);

@@ -44,6 +44,9 @@ export function createSocketServer(httpServer: HttpServer) {
 
     await User.findByIdAndUpdate(userId, { isOnline: true, lastSeen: new Date() });
 
+    // Personal room for direct agent → user notifications
+    s.join(`user:${userId}`);
+
     const groups = await Group.find({ 'members.user': userId }).select('_id');
     for (const g of groups) {
       s.join(`group:${g._id}`);

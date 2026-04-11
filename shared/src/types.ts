@@ -74,3 +74,70 @@ export interface AuthResponse {
   accessToken: string;
   user: IUser;
 }
+
+// ── Agent-related types ────────────────────────────────────────────────────
+
+export interface ILocationHistory {
+  _id: string;
+  userId: string;
+  lat: number;
+  lng: number;
+  accuracy?: number;
+  recordedAt: string;
+}
+
+export interface IGeofence {
+  _id: string;
+  owner: string;
+  groupId: string;
+  name: string;
+  lat: number;
+  lng: number;
+  radiusMeters: number;
+  active: boolean;
+  createdAt: string;
+}
+
+export interface IEtaDestination {
+  lat: number;
+  lng: number;
+  label?: string;
+}
+
+export interface IProximityAlert {
+  userId: string;
+  friendId: string;
+  distanceMeters: number;
+  lat: number;
+  lng: number;
+}
+
+export interface IGeofenceEvent {
+  geofenceId: string;
+  geofenceName: string;
+  userId: string;
+  lat: number;
+  lng: number;
+  type: 'enter' | 'exit';
+}
+
+export interface IEtaUpdate {
+  userId: string;
+  groupId: string;
+  destination: IEtaDestination;
+  etaSeconds: number;
+  distanceMeters: number;
+}
+
+export interface ITripEvent {
+  groupId: string;
+  memberIds: string[];
+  headingDeg: number;
+  speedMps: number;
+}
+
+export interface IMeetupSuggestion {
+  groupId: string;
+  memberIds: string[];
+  midpoint: { lat: number; lng: number };
+}
