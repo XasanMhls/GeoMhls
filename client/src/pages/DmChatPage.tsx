@@ -8,6 +8,7 @@ import { useDmStore } from '@/stores/dmStore';
 import { useAuthStore } from '@/stores/authStore';
 import { getSocket } from '@/lib/socket';
 import { sounds } from '@/lib/sounds';
+import { api } from '@/lib/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
@@ -25,38 +26,48 @@ export default function DmChatPage() {
   const setActive = useDmStore((s) => s.setActive);
   const messages = useDmStore((s) => s.messagesByFriend[friendId!] || []);
   const isTyping = useDmStore((s) => s.typingByFriend[friendId!] ?? false);
+  const friend = useDmStore((s) => (friendId ? s.friendById[friendId] ?? null : null));
 
-  const [friend, setFriend] = useState<any>(null);
   const [text, setText] = useState('');
   const [showPicker, setShowPicker] = useState(false);
   const [showBlastPicker, setShowBlastPicker] = useState(false);
   const [blast, setBlast] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const typingTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Load messages + friend info
   useEffect(() => {
     if (!friendId) return;
     setActive(friendId);
-    fetchMessages(friendId).catch(() => {});
+    setLoadError(false);
+
+    fetchMessages(friendId).catch((err) => {
+      console.error('[DM] fetchMessages failed:', err);
+      setLoadError(true);
+    });
+
     return () => setActive(null);
   }, [friendId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Get friend info from API response (cached in store with conversationId)
+  // If friend info isn't in store yet, fetch it directly
   useEffect(() => {
-    if (!friendId) return;
-    import('@/lib/api').then(({ api }) =>
-      api.get(`/dm/${friendId}`).then(({ data }) => setFriend(data.friend)),
-    );
-  }, [friendId]);
+    if (!friendId || friend) return;
+    api.get(`/dm/${friendId}`)
+      .then(({ data }) => {
+        useDmStore.setState((s) => ({
+          friendById: data.friend ? { ...s.friendById, [friendId]: data.friend } : s.friendById,
+          messagesByFriend: { ...s.messagesByFriend, [friendId]: data.messages ?? s.messagesByFriend[friendId] ?? [] },
+          conversationIdByFriend: { ...s.conversationIdByFriend, [friendId]: data.conversationId },
+        }));
+      })
+      .catch(() => {});
+  }, [friendId, friend]);
 
-  // Scroll to bottom on new messages
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages.length]);
 
-  // Listen for incoming blast from socket (via custom window event)
   useEffect(() => {
     const handler = (e: Event) => {
       const { emoji } = (e as CustomEvent).detail;
@@ -81,12 +92,9 @@ export default function DmChatPage() {
 
   const sendBlast = (emoji: string) => {
     if (!friendId) return;
-    // Send as message
     getSocket()?.emit(SOCKET_EVENTS.DM_SEND, { friendId, text: emoji, type: 'blast' });
-    // Trigger animation locally
     sounds.emojiBlast();
     setBlast(emoji);
-    // Trigger on recipient via dedicated blast event
     getSocket()?.emit(SOCKET_EVENTS.DM_BLAST, { friendId, emoji });
     setShowBlastPicker(false);
   };
@@ -153,34 +161,43 @@ export default function DmChatPage() {
 
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4">
-        {messages.length === 0 ? (
+        {loadError ? (
+          <div className="flex h-full items-center justify-center">
+            <div className="text-center">
+              <div className="mb-3 text-4xl">⚠️</div>
+              <p className="text-text-muted text-sm">Не удалось загрузить чат</p>
+              <button
+                onClick={() => {
+                  setLoadError(false);
+                  fetchMessages(friendId!).catch(() => setLoadError(true));
+                }}
+                className="mt-3 text-sm font-semibold text-brand"
+              >
+                Повторить
+              </button>
+            </div>
+          </div>
+        ) : messages.length === 0 ? (
           <div className="flex h-full items-center justify-center">
             <div className="text-center">
               <div className="mb-3 text-5xl">👋</div>
-              <p className="text-text-muted text-sm">Напишите первое сообщение</p>
+              <p className="text-text-muted text-sm">
+                {friend ? `Напишите ${friend.name} первым!` : 'Напишите первое сообщение'}
+              </p>
             </div>
           </div>
         ) : (
           messages.map((m, idx) => {
             const prev = messages[idx - 1];
-            const sameSender =
-              prev &&
-              String(prev.sender?._id) === String(m.sender?._id);
+            const sameSender = prev && String(prev.sender?._id) === String(m.sender?._id);
             const mine = String(m.sender?._id) === me?.id;
 
             if (m.type === 'blast') {
               return (
-                <div
-                  key={m._id || idx}
-                  className={`flex mb-1 ${mine ? 'justify-end' : 'justify-start'}`}
-                >
+                <div key={m._id || idx} className={`flex mb-1 ${mine ? 'justify-end' : 'justify-start'}`}>
                   <span
                     className="text-5xl cursor-pointer select-none hover:scale-110 transition-transform active:scale-95"
-                    title="Emoji blast"
-                    onClick={() => {
-                      sounds.emojiBlast();
-                      setBlast(m.text);
-                    }}
+                    onClick={() => { sounds.emojiBlast(); setBlast(m.text); }}
                   >
                     {m.text}
                   </span>
@@ -218,7 +235,6 @@ export default function DmChatPage() {
 
       {/* Input */}
       <div className="px-3 pb-3 relative">
-        {/* Emoji picker */}
         <AnimatePresence>
           {showPicker && (
             <motion.div
@@ -233,7 +249,6 @@ export default function DmChatPage() {
           )}
         </AnimatePresence>
 
-        {/* Blast emoji picker */}
         <AnimatePresence>
           {showBlastPicker && (
             <motion.div
@@ -251,16 +266,10 @@ export default function DmChatPage() {
                   backdropFilter: 'blur(20px)',
                 }}
               >
-                <p className="text-xs text-text-muted mb-2 font-semibold uppercase tracking-wider">
-                  Отправить реакцию
-                </p>
+                <p className="text-xs text-text-muted mb-2 font-semibold uppercase tracking-wider">Реакция</p>
                 <div className="flex gap-2 flex-wrap">
                   {BLAST_EMOJIS.map((e) => (
-                    <button
-                      key={e}
-                      onClick={() => sendBlast(e)}
-                      className="text-3xl hover:scale-125 active:scale-95 transition-transform"
-                    >
+                    <button key={e} onClick={() => sendBlast(e)} className="text-3xl hover:scale-125 active:scale-95 transition-transform">
                       {e}
                     </button>
                   ))}
@@ -271,7 +280,6 @@ export default function DmChatPage() {
         </AnimatePresence>
 
         <div className="glass-strong flex items-end gap-2 rounded-[28px] p-2 safe-bottom">
-          {/* Emoji picker button */}
           <button
             type="button"
             onClick={() => { setShowPicker((v) => !v); setShowBlastPicker(false); }}
@@ -279,7 +287,6 @@ export default function DmChatPage() {
           >
             😊
           </button>
-
           <textarea
             ref={inputRef}
             value={text}
@@ -290,8 +297,6 @@ export default function DmChatPage() {
             maxLength={LIMITS.MESSAGE_MAX_LENGTH}
             className="flex-1 resize-none bg-transparent outline-none px-2 py-2.5 text-[15px] placeholder:text-text-muted max-h-32"
           />
-
-          {/* Blast button */}
           <button
             type="button"
             onClick={() => { setShowBlastPicker((v) => !v); setShowPicker(false); }}
@@ -300,8 +305,6 @@ export default function DmChatPage() {
           >
             ✨
           </button>
-
-          {/* Send button */}
           <button
             type="button"
             onClick={sendText}
@@ -316,7 +319,6 @@ export default function DmChatPage() {
         </div>
       </div>
 
-      {/* Emoji blast overlay */}
       <AnimatePresence>
         {blast && <EmojiBlast key={blast + Date.now()} emoji={blast} onDone={clearBlast} />}
       </AnimatePresence>

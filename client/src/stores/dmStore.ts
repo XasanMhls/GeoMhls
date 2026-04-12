@@ -1,17 +1,18 @@
 import { create } from 'zustand';
-import type { IDmMessage, IDmConversation } from '@geomhls/shared';
+import type { IDmMessage, IDmConversation, IFriend } from '@geomhls/shared';
 import { api } from '@/lib/api';
 
 interface DmState {
   messagesByFriend: Record<string, IDmMessage[]>;
   conversationIdByFriend: Record<string, string>;
+  friendById: Record<string, IFriend>;
   conversations: IDmConversation[];
   typingByFriend: Record<string, boolean>;
   unreadByFriend: Record<string, number>;
   activeFriendId: string | null;
 
   fetchConversations: () => Promise<void>;
-  fetchMessages: (friendId: string) => Promise<string>; // returns conversationId
+  fetchMessages: (friendId: string) => Promise<string>;
   addMessage: (message: IDmMessage, myUserId: string) => void;
   setTyping: (fromUserId: string, isTyping: boolean) => void;
   setActive: (friendId: string | null) => void;
@@ -20,6 +21,7 @@ interface DmState {
 export const useDmStore = create<DmState>((set, get) => ({
   messagesByFriend: {},
   conversationIdByFriend: {},
+  friendById: {},
   conversations: [],
   typingByFriend: {},
   unreadByFriend: {},
@@ -37,6 +39,7 @@ export const useDmStore = create<DmState>((set, get) => ({
     set((s) => ({
       messagesByFriend: { ...s.messagesByFriend, [friendId]: data.messages },
       conversationIdByFriend: { ...s.conversationIdByFriend, [friendId]: data.conversationId },
+      friendById: data.friend ? { ...s.friendById, [friendId]: data.friend } : s.friendById,
     }));
     return data.conversationId as string;
   },
@@ -52,7 +55,6 @@ export const useDmStore = create<DmState>((set, get) => ({
       unread[friendId] = (unread[friendId] || 0) + 1;
     }
 
-    // Update conversations list last message
     const convos = get().conversations.map((c) => {
       if (c.friend.id === friendId || c.conversationId === message.conversationId) {
         return { ...c, lastMessage: message };
