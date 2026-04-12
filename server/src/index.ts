@@ -6,7 +6,6 @@ import passport from 'passport';
 import { env } from './config/env.js';
 import { connectDB } from './config/db.js';
 import { configurePassport } from './config/passport.js';
-import mongoose from 'mongoose';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import groupRoutes from './routes/groups.js';
@@ -37,18 +36,6 @@ async function bootstrap() {
   app.use(passport.initialize());
 
   app.get('/api/health', (_req, res) => res.json({ ok: true, name: 'geomhls' }));
-
-  // TEMP: wipe all data — remove after use
-  app.delete('/api/__wipe__', async (_req, res) => {
-    const db = mongoose.connection.db!;
-    const cols = ['users','groups','messages','directconversations','directmessages','locationhistories','geofences','trips'];
-    const result: Record<string, number> = {};
-    for (const c of cols) {
-      const r = await db.collection(c).deleteMany({});
-      result[c] = r.deletedCount;
-    }
-    res.json({ ok: true, deleted: result });
-  });
   app.use('/api/auth', authRoutes);
   app.use('/api/users', userRoutes);
   app.use('/api/groups', groupRoutes);
