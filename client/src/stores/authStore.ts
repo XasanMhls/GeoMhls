@@ -46,7 +46,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   register: async (email, password, name, username) => {
     set({ loading: true });
     try {
-      const { data } = await api.post('/auth/register', { email, password, name, username });
+      const theme = (localStorage.getItem('geomhls_theme') as 'dark' | 'light') || 'dark';
+      const { data } = await api.post('/auth/register', { email, password, name, username, theme });
       setAccessToken(data.accessToken);
       connectSocket(data.accessToken);
       set({ user: data.user });

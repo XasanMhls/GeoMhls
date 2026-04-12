@@ -59,8 +59,15 @@ router.post('/register', authLimiter, validateBody(registerSchema), async (req, 
     return res.status(409).json({ error: 'Username already taken' });
   }
 
+  const { theme } = req.body;
   const passwordHash = await bcrypt.hash(password, 12);
-  const user = await User.create({ email: email.toLowerCase(), username: username.toLowerCase(), name, passwordHash });
+  const user = await User.create({
+    email: email.toLowerCase(),
+    username: username.toLowerCase(),
+    name,
+    passwordHash,
+    settings: { theme: theme === 'light' ? 'light' : 'dark' },
+  });
 
   const accessToken = signAccessToken(String(user._id));
   const refreshToken = signRefreshToken(String(user._id));
