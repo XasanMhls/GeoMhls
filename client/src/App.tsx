@@ -25,6 +25,7 @@ const ChatPage = lazy(() => import('@/pages/ChatPage'));
 const ChatRoomPage = lazy(() => import('@/pages/ChatRoomPage'));
 const ProfilePage = lazy(() => import('@/pages/ProfilePage'));
 const FriendsPage = lazy(() => import('@/pages/FriendsPage'));
+const DmChatPage = lazy(() => import('@/pages/DmChatPage'));
 
 export default function App() {
   const location = useLocation();
@@ -79,6 +80,9 @@ export default function App() {
             }/>
             <Route path="/friends" element={
               <ProtectedRoute><PageTransition><FriendsPage /></PageTransition></ProtectedRoute>
+            }/>
+            <Route path="/dm/:friendId" element={
+              <ProtectedRoute><DmChatPage /></ProtectedRoute>
             }/>
             <Route path="/profile" element={
               <ProtectedRoute><PageTransition><ProfilePage /></PageTransition></ProtectedRoute>

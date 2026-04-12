@@ -39,6 +39,32 @@ export interface IFriend {
   isOnline: boolean;
 }
 
+export interface IDmMessage {
+  _id: string;
+  conversationId: string;
+  participants: string[];
+  sender: { _id: string; name: string; avatar: string | null };
+  text: string;
+  type: 'text' | 'blast';
+  createdAt: string;
+}
+
+export interface IDmConversation {
+  conversationId: string;
+  friend: IFriend;
+  lastMessage?: IDmMessage;
+  unreadCount: number;
+}
+
+export interface IFriendRequest {
+  id: string;
+  username: string;
+  name: string;
+  avatar: string | null;
+  status: string;
+  isOnline: boolean;
+}
+
 export interface IGroupMember {
   _id: string;
   name: string;

@@ -12,6 +12,7 @@ import groupRoutes from './routes/groups.js';
 import messageRoutes from './routes/messages.js';
 import geofenceRoutes from './routes/geofences.js';
 import historyRoutes from './routes/history.js';
+import dmRoutes from './routes/dm.js';
 import { createSocketServer } from './socket/index.js';
 import { AgentManager } from './agents/AgentManager.js';
 
@@ -41,6 +42,7 @@ async function bootstrap() {
   app.use('/api/messages', messageRoutes);
   app.use('/api/geofences', geofenceRoutes);
   app.use('/api/history', historyRoutes);
+  app.use('/api/dm', dmRoutes);
 
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error(err);

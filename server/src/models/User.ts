@@ -44,6 +44,7 @@ const userSchema = new Schema(
     location: { type: userLocationSchema, default: null },
     settings: { type: userSettingsSchema, default: () => ({}) },
     friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    friendRequests: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     lastSeen: { type: Date, default: Date.now },
     isOnline: { type: Boolean, default: false },
     pushSubscriptions: { type: [pushSubscriptionSchema], default: [] },

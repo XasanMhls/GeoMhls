@@ -1,9 +1,11 @@
 import { Router, type Response } from 'express';
 import { updateProfileSchema } from '@geomhls/shared';
+import { SOCKET_EVENTS } from '@geomhls/shared';
 import { User } from '../models/User.js';
 import { requireAuth, type AuthRequest } from '../middleware/auth.js';
 import { validateBody } from '../middleware/validate.js';
 import { env } from '../config/env.js';
+import { getIo } from '../socket/index.js';
 
 const router = Router();
 
@@ -73,19 +75,102 @@ router.get('/friends', async (req: AuthRequest, res: Response) => {
   res.json({ friends: ((me as any).friends || []).map(serializeFriend) });
 });
 
-/* ── Add friend ── */
+/* ── Get pending friend requests (incoming) ── */
+router.get('/friend-requests', async (req: AuthRequest, res: Response) => {
+  const me = await User.findById(req.userId)
+    .populate('friendRequests', 'username name avatar status isOnline')
+    .lean();
+  if (!me) return res.status(404).json({ error: 'User not found' });
+  res.json({ requests: ((me as any).friendRequests || []).map(serializeFriend) });
+});
+
+/* ── Send friend request ── */
 router.post('/friends/:userId', async (req: AuthRequest, res: Response) => {
   const { userId } = req.params;
   if (userId === req.userId) return res.status(400).json({ error: 'Cannot add yourself' });
 
-  const target = await User.findById(userId);
-  if (!target) return res.status(404).json({ error: 'User not found' });
+  const [me, target] = await Promise.all([
+    User.findById(req.userId),
+    User.findById(userId),
+  ]);
+  if (!me || !target) return res.status(404).json({ error: 'User not found' });
+
+  const alreadyFriends = (me as any).friends.some((f: any) => String(f) === userId);
+  if (alreadyFriends) return res.status(400).json({ error: 'Already friends' });
+
+  const alreadySent = (target as any).friendRequests.some((f: any) => String(f) === req.userId);
+  if (alreadySent) return res.status(400).json({ error: 'Request already sent' });
+
+  // If target already sent ME a request → auto-accept both
+  const theyRequested = (me as any).friendRequests.some((f: any) => String(f) === userId);
+  if (theyRequested) {
+    await Promise.all([
+      User.updateOne({ _id: req.userId }, {
+        $pull: { friendRequests: userId },
+        $addToSet: { friends: userId },
+      }),
+      User.updateOne({ _id: userId }, {
+        $addToSet: { friends: req.userId },
+      }),
+    ]);
+    try {
+      getIo().to(`user:${userId}`).emit(SOCKET_EVENTS.FRIEND_REQUEST_ACCEPTED, {
+        by: serializeFriend(me),
+      });
+    } catch {}
+    return res.json({ ok: true, accepted: true, friend: serializeFriend(target) });
+  }
 
   await User.updateOne(
-    { _id: req.userId, friends: { $ne: userId } },
-    { $push: { friends: userId } },
+    { _id: userId, friendRequests: { $ne: req.userId } },
+    { $push: { friendRequests: req.userId } },
   );
-  res.json({ ok: true, friend: serializeFriend(target) });
+
+  try {
+    getIo().to(`user:${userId}`).emit(SOCKET_EVENTS.FRIEND_REQUEST, {
+      from: serializeFriend(me),
+    });
+  } catch {}
+
+  res.json({ ok: true, accepted: false });
+});
+
+/* ── Accept friend request ── */
+router.post('/friend-requests/:userId/accept', async (req: AuthRequest, res: Response) => {
+  const { userId } = req.params;
+
+  const me = await User.findById(req.userId);
+  if (!me) return res.status(404).json({ error: 'User not found' });
+
+  const hasRequest = (me as any).friendRequests.some((f: any) => String(f) === userId);
+  if (!hasRequest) return res.status(400).json({ error: 'No request from this user' });
+
+  const friend = await User.findById(userId);
+  if (!friend) return res.status(404).json({ error: 'User not found' });
+
+  await Promise.all([
+    User.updateOne({ _id: req.userId }, {
+      $pull: { friendRequests: userId },
+      $addToSet: { friends: userId },
+    }),
+    User.updateOne({ _id: userId }, {
+      $addToSet: { friends: req.userId },
+    }),
+  ]);
+
+  try {
+    getIo().to(`user:${userId}`).emit(SOCKET_EVENTS.FRIEND_REQUEST_ACCEPTED, {
+      by: serializeFriend(me),
+    });
+  } catch {}
+
+  res.json({ ok: true, friend: serializeFriend(friend) });
+});
+
+/* ── Decline friend request ── */
+router.delete('/friend-requests/:userId', async (req: AuthRequest, res: Response) => {
+  await User.updateOne({ _id: req.userId }, { $pull: { friendRequests: req.params.userId } });
+  res.json({ ok: true });
 });
 
 /* ── Remove friend ── */

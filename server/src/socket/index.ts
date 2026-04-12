@@ -7,6 +7,7 @@ import { Group } from '../models/Group.js';
 import { SOCKET_EVENTS } from '@geomhls/shared';
 import { registerLocationHandlers } from './locationHandler.js';
 import { registerChatHandlers } from './chatHandler.js';
+import { registerDmHandlers } from './dmHandler.js';
 
 export interface AuthedSocket extends Socket {
   userId: string;
@@ -15,6 +16,13 @@ export interface AuthedSocket extends Socket {
 /* Track currently connected socket IDs per user (a user may have multiple tabs) */
 export const onlineUsers = new Map<string, Set<string>>();
 
+let ioInstance: Server | null = null;
+
+export function getIo(): Server {
+  if (!ioInstance) throw new Error('Socket.io not initialized');
+  return ioInstance;
+}
+
 export function createSocketServer(httpServer: HttpServer) {
   const io = new Server(httpServer, {
     cors: {
@@ -22,6 +30,7 @@ export function createSocketServer(httpServer: HttpServer) {
       credentials: true,
     },
   });
+  ioInstance = io;
 
   io.use((socket, next) => {
     try {
@@ -56,6 +65,7 @@ export function createSocketServer(httpServer: HttpServer) {
 
     registerLocationHandlers(io, s);
     registerChatHandlers(io, s);
+    registerDmHandlers(io, s);
 
     s.on('disconnect', async () => {
       const sockets = onlineUsers.get(userId);

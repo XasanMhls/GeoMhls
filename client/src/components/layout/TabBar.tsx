@@ -2,22 +2,28 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useChatStore } from '@/stores/chatStore';
+import { useDmStore } from '@/stores/dmStore';
+import { useFriendRequestsStore } from '@/stores/friendRequestsStore';
 import { cn } from '@/lib/cn';
 
 const tabs = [
   { to: '/map',     key: 'map',     icon: MapIcon },
   { to: '/groups',  key: 'groups',  icon: GroupsIcon },
-  { to: '/friends', key: 'friends', icon: FriendsIcon },
-  { to: '/chat',    key: 'chat',    icon: ChatIcon,   badge: true },
+  { to: '/friends', key: 'friends', icon: FriendsIcon, friendBadge: true },
+  { to: '/chat',    key: 'chat',    icon: ChatIcon,    badge: true },
   { to: '/profile', key: 'profile', icon: ProfileIcon },
 ];
 
 export function TabBar() {
   const { t } = useTranslation();
   const location = useLocation();
-  const hide = location.pathname.startsWith('/chat/');
+  const hide = location.pathname.startsWith('/chat/') || location.pathname.startsWith('/dm/');
   const unread = useChatStore((s) => s.unreadByGroup);
-  const totalUnread = Object.values(unread).reduce((a, b) => a + b, 0);
+  const dmUnread = useDmStore((s) => s.unreadByFriend);
+  const totalUnread =
+    Object.values(unread).reduce((a, b) => a + b, 0) +
+    Object.values(dmUnread).reduce((a, b) => a + b, 0);
+  const pendingRequests = useFriendRequestsStore((s) => s.requests.length);
 
   if (hide) return null;
 
@@ -51,6 +57,7 @@ export function TabBar() {
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const showBadge = (tab as any).badge && totalUnread > 0;
+          const showFriendBadge = (tab as any).friendBadge && pendingRequests > 0;
 
           return (
             <NavLink
@@ -87,6 +94,11 @@ export function TabBar() {
                     {showBadge && (
                       <span className="absolute -top-1.5 -right-2 flex h-4 min-w-[16px] items-center justify-center rounded-full gradient-brand px-1 text-[9px] font-bold text-white shadow-sm">
                         {totalUnread > 99 ? '99+' : totalUnread}
+                      </span>
+                    )}
+                    {showFriendBadge && (
+                      <span className="absolute -top-1.5 -right-2 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-bold text-white shadow-sm">
+                        {pendingRequests > 9 ? '9+' : pendingRequests}
                       </span>
                     )}
                   </span>

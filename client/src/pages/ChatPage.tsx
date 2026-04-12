@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/layout/Header';
 import { useGroupsStore } from '@/stores/groupsStore';
 import { useChatStore } from '@/stores/chatStore';
+import { useDmStore } from '@/stores/dmStore';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { Avatar } from '@/components/ui/Avatar';
 import { Skeleton } from '@/components/ui/Skeleton';
 import { formatRelative } from '@/lib/format';
 
@@ -18,21 +20,86 @@ export default function ChatPage() {
   const unread = useChatStore((s) => s.unreadByGroup);
   const fetchLastMessages = useChatStore((s) => s.fetchLastMessages);
 
+  const conversations = useDmStore((s) => s.conversations);
+  const unreadDm = useDmStore((s) => s.unreadByFriend);
+  const fetchConversations = useDmStore((s) => s.fetchConversations);
+
   useEffect(() => {
     fetchGroups();
     fetchLastMessages();
-  }, [fetchGroups, fetchLastMessages]);
+    fetchConversations();
+  }, [fetchGroups, fetchLastMessages, fetchConversations]);
+
+  const hasDms = conversations.length > 0;
 
   return (
     <div className="pb-36 lg:pb-10">
       <Header title={t('chat.title')} />
       <div className="px-5 space-y-3">
+
+        {/* DM conversations */}
+        {hasDms && (
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-3">
+              Личные сообщения
+            </div>
+            <div className="space-y-2">
+              {conversations.map((c) => {
+                const dmUnread = unreadDm[c.friend.id] || 0;
+                return (
+                  <GlassCard
+                    key={c.conversationId}
+                    onClick={() => navigate(`/dm/${c.friend.id}`)}
+                    className="flex cursor-pointer items-center gap-3 p-4 transition-all active:scale-[0.985] active:brightness-95"
+                  >
+                    <div className="relative flex-shrink-0">
+                      <Avatar src={c.friend.avatar} name={c.friend.name} size={48} online={c.friend.isOnline} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="truncate font-semibold">{c.friend.name}</div>
+                        {c.lastMessage?.createdAt && (
+                          <span className="shrink-0 text-[11px] text-text-muted">
+                            {formatRelative(c.lastMessage.createdAt)}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-between gap-2 mt-0.5">
+                        <div className="truncate text-[13px] text-text-muted">
+                          {c.lastMessage
+                            ? c.lastMessage.type === 'blast'
+                              ? `${c.lastMessage.text} реакция`
+                              : c.lastMessage.text
+                            : `@${c.friend.username}`}
+                        </div>
+                        {dmUnread > 0 && (
+                          <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full gradient-brand px-1.5 text-[11px] font-bold text-white">
+                            {dmUnread > 99 ? '99+' : dmUnread}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </GlassCard>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Group chats header */}
+        {(hasDms || groups.length > 0) && (
+          <div className="text-xs font-semibold uppercase tracking-wider text-text-muted pt-1">
+            Группы
+          </div>
+        )}
+
+        {/* Group chats */}
         {loading && groups.length === 0 ? (
           <>
             <Skeleton className="h-20 w-full" />
             <Skeleton className="h-20 w-full" />
           </>
-        ) : groups.length === 0 ? (
+        ) : groups.length === 0 && !hasDms ? (
           <div className="glass mt-10 rounded-3xl p-12 text-center">
             <div className="mb-4 text-5xl">💬</div>
             <h3 className="text-xl font-bold">{t('chat.empty')}</h3>

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Language } from '@geomhls/shared';
 import { Header } from '@/components/layout/Header';
@@ -22,6 +23,11 @@ export default function ProfilePage() {
   const logout = useAuthStore((s) => s.logout);
   const theme = useThemeStore((s) => s.theme);
   const setTheme = useThemeStore((s) => s.setTheme);
+  const [friendsCount, setFriendsCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    api.get('/users/friends').then(({ data }) => setFriendsCount(data.friends.length));
+  }, []);
 
   const updateSettings = async (patch: Record<string, unknown>) => {
     const { data } = await api.patch('/users/me/settings', patch);
@@ -49,26 +55,36 @@ export default function ProfilePage() {
       <Header title={t('profile.title')} />
       <div className="px-5 space-y-4">
         {/* Profile card */}
-        <GlassCard className="flex items-center gap-4 p-5">
-          <div className="relative">
-            <Avatar src={user?.avatar} name={user?.name} size={68} online />
-            {/* Freeze badge on avatar */}
-            {freezeLocation && (
-              <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs shadow-lg">
-                ❄️
-              </div>
-            )}
+        <GlassCard className="p-5">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <Avatar src={user?.avatar} name={user?.name} size={68} online />
+              {freezeLocation && (
+                <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs shadow-lg">
+                  ❄️
+                </div>
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="truncate text-[19px] font-bold">{user?.name}</div>
+              {user?.username && (
+                <div className="truncate text-sm font-medium text-brand">@{user.username}</div>
+              )}
+              <div className="truncate text-sm text-text-muted">{user?.email}</div>
+              {user?.status && (
+                <div className="mt-1 text-xs text-text-muted">{user.status}</div>
+              )}
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="truncate text-[19px] font-bold">{user?.name}</div>
-            {user?.username && (
-              <div className="truncate text-sm font-medium text-brand">@{user.username}</div>
-            )}
-            <div className="truncate text-sm text-text-muted">{user?.email}</div>
-            {user?.status && (
-              <div className="mt-1 text-xs text-text-muted">{user.status}</div>
-            )}
-          </div>
+          {friendsCount !== null && (
+            <div className="mt-4 flex items-center gap-2 rounded-xl px-4 py-2.5" style={{ background: 'rgb(var(--surface-2))' }}>
+              <svg className="w-4 h-4 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+              <span className="text-sm font-semibold">{friendsCount}</span>
+              <span className="text-sm text-text-muted">{friendsCount === 1 ? 'друг' : friendsCount >= 2 && friendsCount <= 4 ? 'друга' : 'друзей'}</span>
+            </div>
+          )}
         </GlassCard>
 
         {/* Location settings — freeze gets its own card for prominence */}

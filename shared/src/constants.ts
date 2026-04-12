@@ -18,6 +18,16 @@ export const SOCKET_EVENTS = {
   PRESENCE_IDLE: 'presence:idle',
   TRIP_TOGETHER: 'trip:together',
   MEETUP_SUGGEST: 'meetup:suggest',
+  // Direct messages
+  DM_SEND: 'dm:send',
+  DM_NEW: 'dm:new',
+  DM_TYPING: 'dm:typing',
+  DM_STOP_TYPING: 'dm:stop-typing',
+  DM_BLAST: 'dm:blast',
+  // Friend requests
+  FRIEND_REQUEST: 'friend:request',
+  FRIEND_REQUEST_ACCEPTED: 'friend:accepted',
+  FRIEND_REQUEST_DECLINED: 'friend:declined',
   // Client → Server agent commands
   ETA_SET: 'eta:set',
   ETA_CLEAR: 'eta:clear',

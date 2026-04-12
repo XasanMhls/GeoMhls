@@ -48,6 +48,12 @@ export const sendMessageSchema = z.object({
   text: z.string().min(1).max(1000),
 });
 
+export const sendDmSchema = z.object({
+  friendId: z.string().min(1),
+  text: z.string().min(1).max(1000),
+  type: z.enum(['text', 'blast']).default('text'),
+});
+
 export const locationUpdateSchema = z.object({
   lat: z.number().min(-90).max(90),
   lng: z.number().min(-180).max(180),
