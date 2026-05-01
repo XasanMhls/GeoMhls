@@ -1,5 +1,8 @@
 import express from 'express';
 import http from 'node:http';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
@@ -43,6 +46,18 @@ async function bootstrap() {
   app.use('/api/geofences', geofenceRoutes);
   app.use('/api/history', historyRoutes);
   app.use('/api/dm', dmRoutes);
+
+  // In production, serve the built React app from client/dist
+  if (env.NODE_ENV === 'production') {
+    const __dirname = fileURLToPath(new URL('.', import.meta.url));
+    const clientDist = path.join(__dirname, '../../../../client/dist');
+    if (fs.existsSync(clientDist)) {
+      app.use(express.static(clientDist));
+      app.get('*', (_req, res) => {
+        res.sendFile(path.join(clientDist, 'index.html'));
+      });
+    }
+  }
 
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error(err);
