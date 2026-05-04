@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/server/src/index.js"
+    "build": "echo 'No build step needed'",
+    "start": "tsx src/index.ts"
   },
   "dependencies": {
     "@geomhls/shared": "*",
