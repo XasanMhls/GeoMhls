@@ -1,5 +1,5 @@
 import webpush from 'web-push';
-import { env, vapidEnabled } from '../config/env.js';
+import { env, vapidEnabled } from '../middleware/config/env.js';
 import { User } from '../models/User.js';
 
 if (vapidEnabled) {

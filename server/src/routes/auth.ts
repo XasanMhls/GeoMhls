@@ -12,7 +12,7 @@ import {
   requireAuth,
   type AuthRequest,
 } from '../middleware/auth.js';
-import { env, googleOAuthEnabled } from '../config/env.js';
+import { env, googleOAuthEnabled } from '../middleware/config/env.js';
 
 const router = Router();
 

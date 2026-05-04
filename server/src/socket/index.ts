@@ -1,7 +1,7 @@
 import type { Server as HttpServer } from 'node:http';
 import { Server, type Socket } from 'socket.io';
 import { verifyAccessToken } from '../middleware/auth.js';
-import { env } from '../config/env.js';
+import { env } from '../middleware/config/env.js';
 import { User } from '../models/User.js';
 import { Group } from '../models/Group.js';
 import { SOCKET_EVENTS } from '@geomhls/shared';

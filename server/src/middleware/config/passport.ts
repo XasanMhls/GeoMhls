@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy, type Profile, type VerifyCallback } from 'passport-google-oauth20';
 import { env, googleOAuthEnabled } from './env.js';
-import { User } from '../models/User.js';
+import { User } from '../../models/User.js';
 
 export function configurePassport() {
   if (!googleOAuthEnabled) {

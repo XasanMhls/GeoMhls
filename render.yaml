@@ -17,7 +17,7 @@ services:
       - key: JWT_REFRESH_SECRET
         generateValue: true
       - key: CLIENT_URL
-        value: https://geomhls-client.onrender.com
+        value: https://geomhls.onrender.com
       - key: VAPID_SUBJECT
         value: mailto:admin@geomhls.app
       - key: VAPID_PUBLIC_KEY
@@ -26,9 +26,8 @@ services:
         sync: false
 
   # ── Frontend (Static Site) ────────────────────────────────
-  - type: web
+  - type: static
     name: geomhls-client
-    runtime: static
     plan: free
     buildCommand: npm install && npm run build -w client
     staticPublishPath: client/dist

@@ -4,7 +4,7 @@ import { SOCKET_EVENTS } from '@geomhls/shared';
 import { User } from '../models/User.js';
 import { requireAuth, type AuthRequest } from '../middleware/auth.js';
 import { validateBody } from '../middleware/validate.js';
-import { env } from '../config/env.js';
+import { env } from '../middleware/config/env.js';
 import { getIo } from '../socket/index.js';
 
 const router = Router();
