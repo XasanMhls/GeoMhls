@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { z } from 'zod';
 
 const envSchema = z.object({
-  MONGODB_URI: z.string().min(1).default('memory'),
+  MONGODB_URI: z.string().min(1),
   JWT_SECRET: z.string().min(16),
   JWT_REFRESH_SECRET: z.string().min(16),
   GOOGLE_CLIENT_ID: z.string().default(''),
