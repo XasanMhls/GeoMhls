@@ -6,7 +6,7 @@ export function connectSocket(token: string): Socket {
   if (socket?.connected) return socket;
   socket = io(import.meta.env.VITE_SOCKET_URL || '/', {
     auth: { token },
-    transports: ['websocket'],
+    transports: ['polling', 'websocket'],
     autoConnect: true,
   });
   return socket;
