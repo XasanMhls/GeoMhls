@@ -6,6 +6,9 @@ export async function connectDB() {
     let uri = env.MONGODB_URI;
 
     if (uri === 'memory') {
+      if (env.NODE_ENV === 'production') {
+        throw new Error('MONGODB_URI must be set in production. Set it to a MongoDB Atlas connection string.');
+      }
       const { MongoMemoryServer } = await import('mongodb-memory-server');
       const mongod = await MongoMemoryServer.create();
       uri = mongod.getUri();
@@ -13,7 +16,7 @@ export async function connectDB() {
     }
 
     mongoose.set('strictQuery', true);
-    await mongoose.connect(uri);
+    await mongoose.connect(uri, { serverSelectionTimeoutMS: 10000 });
     console.log('✅ MongoDB connected');
   } catch (err) {
     console.error('❌ MongoDB connection error:', err);
